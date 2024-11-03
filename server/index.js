@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 // Configuração mais robusta do CORS
 const corsOptions = {
-  origin: ["*"],
+  origin: ["https://push-notification-poc-chi.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
