@@ -78,16 +78,19 @@ async function registerPushManager() {
       console.log("Inscrição já existente.");
     }
 
-    const response = await fetch("http://localhost:3000/subscribe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: getBrowserId(),
-        pushSubscription: subscription,
-      }),
-    });
+    const response = await fetch(
+      "https://push-notification-server-one.vercel.app/subscribe",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: getBrowserId(),
+          pushSubscription: subscription,
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Falha ao enviar a inscrição ao servidor.");
@@ -122,15 +125,18 @@ function App() {
 
   async function sendNotification(message: string) {
     try {
-      await fetch("http://localhost:3000/notify-all", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message,
-        }),
-      });
+      await fetch(
+        "https://push-notification-server-one.vercel.app/notify-all",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message,
+          }),
+        }
+      );
       alert("Notificação enviada!");
     } catch (error) {
       alert(`Falha ao enviar notificação: ${error.message}`);
