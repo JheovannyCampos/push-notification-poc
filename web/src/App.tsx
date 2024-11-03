@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 import "./App.css";
 
 function getBrowserId() {
@@ -78,22 +79,20 @@ async function registerPushManager() {
       console.log("Inscrição já existente.");
     }
 
-    const response = await fetch(
+    const response = await axios.post(
       "https://push-notification-server-one.vercel.app/subscribe",
       {
-        method: "POST",
-        credentials: "include",
+        id: getBrowserId(),
+        pushSubscription: subscription,
+      },
+      {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          id: getBrowserId(),
-          pushSubscription: subscription,
-        }),
       }
     );
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error("Falha ao enviar a inscrição ao servidor.");
     }
 
@@ -126,17 +125,15 @@ function App() {
 
   async function sendNotification(message: string) {
     try {
-      await fetch(
+      await axios.post(
         "https://push-notification-server-one.vercel.app/notify-all",
         {
-          method: "POST",
-          credentials: "include",
+          message,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            message,
-          }),
         }
       );
       alert("Notificação enviada!");
