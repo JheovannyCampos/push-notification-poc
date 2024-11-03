@@ -53,51 +53,53 @@ async function registerNotificationServiceWorker(): Promise<ServiceWorkerRegistr
 }
 
 async function registerPushManager() {
-  const registration = await registerNotificationServiceWorker();
-  if (!registration) {
-    alert("Não foi possível registrar o Service Worker.");
-    return false;
-  }
-
   try {
-    const permissionResult = await window.Notification.requestPermission();
-    if (permissionResult !== "granted") {
-      alert(`Permissão negada: ${permissionResult}`);
-      return false;
-    }
-
-    let subscription = await registration.pushManager.getSubscription();
-
-    if (!subscription) {
-      subscription = await registration.pushManager.subscribe({
-        applicationServerKey: urlB64ToUint8Array(
-          "BE6NLRSQrlTIChjXwL2npjMVsEVYNsD3GRFiH8HkIJBShGQRh5E8mLFNSwv1M4XmbfNw3PbRI0S7mGEH78DU9Ro"
-        ),
-        userVisibleOnly: true,
-      });
-    } else {
-      console.log("Inscrição já existente.");
-    }
-
-    const response = await axios.post(
-      "https://push-notification-server-one.vercel.app/subscribe",
-      {
-        id: getBrowserId(),
-        pushSubscription: subscription,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      const registration = await registerNotificationServiceWorker();
+      if (!registration) {
+        alert("Não foi possível registrar o Service Worker.");
+        return false;
       }
-    );
 
-    if (response.status !== 200) {
-      throw new Error("Falha ao enviar a inscrição ao servidor.");
+      const permissionResult = await window.Notification.requestPermission();
+      if (permissionResult !== "granted") {
+        alert(`Permissão negada: ${permissionResult}`);
+        return false;
+      }
+
+      let subscription = await registration.pushManager.getSubscription();
+
+      if (!subscription) {
+        subscription = await registration.pushManager.subscribe({
+          applicationServerKey: urlB64ToUint8Array(
+            "BE6NLRSQrlTIChjXwL2npjMVsEVYNsD3GRFiH8HkIJBShGQRh5E8mLFNSwv1M4XmbfNw3PbRI0S7mGEH78DU9Ro"
+          ),
+          userVisibleOnly: true,
+        });
+      } else {
+        console.log("Inscrição já existente.");
+      }
+
+      const response = await axios.post(
+        "https://push-notification-server-one.vercel.app/subscribe",
+        {
+          id: getBrowserId(),
+          pushSubscription: subscription,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Falha ao enviar a inscrição ao servidor.");
+      }
+
+      alert("Inscrição bem-sucedida!");
+      return true;
     }
-
-    alert("Inscrição bem-sucedida!");
-    return true;
   } catch (error: any) {
     console.error("Erro ao registrar no Push Manager:", error);
     alert(`Erro ao se inscrever no Push Manager: ${error.message}`);
