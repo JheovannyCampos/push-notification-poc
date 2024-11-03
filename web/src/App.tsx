@@ -19,7 +19,7 @@ function urlB64ToUint8Array(base64String: string) {
   return new Uint8Array([...rawData].map((char) => char.charCodeAt(0)));
 }
 
-async function registerNotificationServiceWorker() {
+async function registerNotificationServiceWorker(): Promise<ServiceWorkerRegistration | null> {
   if (!("serviceWorker" in navigator)) {
     console.warn("Service Worker não suportado no navegador.");
     return null;
@@ -98,7 +98,7 @@ async function registerPushManager() {
 
     alert("Inscrição bem-sucedida!");
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erro ao registrar no Push Manager:", error);
     alert(`Erro ao se inscrever no Push Manager: ${error.message}`);
     return false;
@@ -138,7 +138,7 @@ function App() {
         }
       );
       alert("Notificação enviada!");
-    } catch (error) {
+    } catch (error: any) {
       alert(`Falha ao enviar notificação: ${error.message}`);
     }
   }
