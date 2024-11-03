@@ -140,4 +140,5 @@ app.listen(port, () => {
   console.log(`- GET  /`);
   console.log(`- POST /subscribe`);
   console.log(`- POST /notify-all`);
+  next();
 });
