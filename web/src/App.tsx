@@ -60,7 +60,7 @@ async function registerPushManager() {
   }
 
   try {
-    const permissionResult = await Notification.requestPermission();
+    const permissionResult = await window.Notification.requestPermission();
     if (permissionResult !== "granted") {
       alert(`Permissão negada: ${permissionResult}`);
       return false;
