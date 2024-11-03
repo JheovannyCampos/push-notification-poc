@@ -82,6 +82,7 @@ async function registerPushManager() {
       "https://push-notification-server-one.vercel.app/subscribe",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -129,6 +130,7 @@ function App() {
         "https://push-notification-server-one.vercel.app/notify-all",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
