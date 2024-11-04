@@ -158,10 +158,10 @@ function App() {
         value={messageInputValue}
         onChange={(e) => setMessageInputValue(e.target.value)}
       />
-      <button onClick={handleSubscribe} disabled={isSubscribed}>
+      <button onClick={handleSubscribe} disabled={isSubscribed} className="inscribe">
         {isSubscribed ? "Inscrito" : "Inscrever"}
       </button>
-      <button onClick={() => sendNotification(messageInputValue)}>
+      <button onClick={() => sendNotification(messageInputValue)} className="send-all">
         Notificar todos
       </button>
     </div>
