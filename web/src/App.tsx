@@ -154,7 +154,7 @@ function App() {
   return (
     <div className="card">
       <input
-        placeholder="Digite a mensagem da notificação"
+        placeholder="Digite a mensagem"
         value={messageInputValue}
         onChange={(e) => setMessageInputValue(e.target.value)}
       />
