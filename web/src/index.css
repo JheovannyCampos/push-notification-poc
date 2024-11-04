@@ -54,6 +54,14 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.inscribe {
+  background-color: #535bf2;
+}
+
+.send-all {
+  background-color: cadetblue;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
