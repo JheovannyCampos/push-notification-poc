@@ -17,5 +17,12 @@
   ],
   "theme_color": "#f2f2f0",
   "background_color": "#f4f2f0",
-  "display": "standalone"
+  "display": "fullscreen",
+  "start_url": "https://push-notification-poc-chi.vercel.app/",
+  "dir": "rtl",
+  "orientation": "portrait",
+  "display_override": [
+    "fullscreen",
+    "window-controls-overlay"
+  ]
 }
